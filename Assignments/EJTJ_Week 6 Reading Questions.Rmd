@@ -1,0 +1,73 @@
+---
+title: "Week 6: Reading Questions"
+author: "Ednita J Tavarez-Jimenez"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: journal
+  
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Q1: In a short paragraph, describe a baseline scenario regarding seed predation. At the end, state the null hypothesis for seed predation.
+
+Baseline scenarion: Looking at the species Polyscias fulva and Pseudospondias microcarpa, the scenario is looking into if any seeds were or were not taken. I want to know about which seeds are eatened or uneatened the larger or the smaller. I predict that the larger seeds will eat be taken than the larger seeds.
+
+
+Null hypothesis: Smaller seeds were less eaten the the larger seeds therefore, the null hypthesis will be rejected. 
+
+
+
+## Q2: Paste the R code you used to complete the table and calculate the rates.
+```{r seeds}
+rm(list = ls())
+
+pol_n_predation = 26
+pol_n_no_predation = 184
+pol_n_total = 210
+pol_predation_rate = (pol_n_predation / pol_n_total)
+
+psd_n_predation = 25
+psd_n_no_predation = 706
+psd_n_total =731
+psd_predation_rate = (psd_n_predation / psd_n_total)
+  
+predation_rate <- pol_predation_rate / psd_predation_rate
+
+print(predation_rate)
+
+print(
+  paste0(
+    "The seed predation rate for Polyscias fulva is: ",
+    round(pol_predation_rate, digits = 3))) 
+
+print(
+  paste0(
+    "The seed predation rate for Pseudospondias microcarpa is: ",
+    round(psd_predation_rate, digits = 3)))
+```
+
+## Q3: Show your table with the missing values filled in.
+
+
+```{r pressure, table}
+
+psd_predation_rate = matrix(c(1:5), ncol=5, byrow=TRUE)
+ 
+# specify the column names and row names of matrix
+colnames(data) = c('Species','Polyscias fulva (pol)','Pseudospondias microcarpa (psd)')
+rownames(data) <- c('any taken','None Taken','N','Predation')
+ 
+# assign to table
+final=as.table(data)
+ 
+# display
+final
+
+```
+
+## Q4: Report the seed ratio of seed predation proportions and show the R code you used to do the calculation.

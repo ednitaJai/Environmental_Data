@@ -1,0 +1,230 @@
+---
+title: "Final R Reference"
+author: "Ednita J Tavarez-Jimenez"
+Date: "November 21, 2022"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: journal
+editor_options: 
+  chunk_output_type: inline
+
+---
+# R Reference Guide {.tabset .tabset-pills}
+
+
+## Loading Data and Packages
+
+
+## Next Section...
+
+```{r}
+require(here)
+library(palmerpenguins)
+require(palmerpenguins)
+here()
+ginkgo <- read.csv(here("data", "ginkgo_data_2022.csv"))
+dat_delo <- read.csv(here("data", "delomys.csv"))
+dat_pen <- penguins
+```
+
+# Part 2: Data Analysis
+
+# Data Exploration
+
+**Q1: Qualitatively describe the relationship between body mass and length.**
+
+The relationship between body mass and length look a bit linear with a small curve on the scatter plot.
+
+```{r fig.width= 8, fig.height = 8}
+require(palmerpenguins)
+plot(body_length ~ body_mass, data = dat_delo, main = "Delomys Body Mass and Body Length Histogram", xlab = "Body Mass", ylab = "Body Length", col = "black")
+```
+
+
+**Q2: Qualitatively describe the shapes of the histograms.**
+
+The data does not appear to be normally distributed there is variation in the shape with body mass being a little skewed to the right. We care if the data is normally distributed or not because we would need to decide which model is appropriate to use or not going forward. In addition, we would want to see if there are any outliers if the data is not normally distributed.
+
+```{r fig.width = 10, fig.height = 10}
+#Histogram of Penguin Body Mass and Body Length
+par(mfrow = c(2, 1))
+hist(dat_pen$body_mass_g, main = "Delomys Body Mass Histogram", xlab = "Body Mass", col = "pink")
+hist(dat_delo$body_length, xlab = "Body Length",main = "Delomys Penguin Body Length Histogram", col = "steelblue")
+```
+
+
+**Q3 (2 pts.): Using both the histograms and normality tests, do you think the (unconditioned) body masses and body length are normally-distributed?**
+
+Looking at the histogram and normality tests, I do not think the body masses and body length are normally distributed. In the histogram, we can see that the graphs are a bit skewed. In the shapiro test, the p-value is 2e-16 which is a lot less than the 0.05 so the null hypothesis would be rejected.
+
+```{r}
+dat_delo_1 = lm(body_mass ~ body_length, data = dat_delo)
+
+summary(dat_delo_1)
+
+shapiro.test(residuals(dat_delo_1))
+```
+
+
+**Q4: Examine the three conditional boxplots.**
+
+Looking at the conditional boxplot I don't see a large variation in body mass between the two species and the sex. In the body mass conditioned by species boxplot we see that the dorsalis weights a little more than the sublineatus. However, in the body mass condition on sex boxplot we can see that the males weight a little more than the females.
+```{r fig.width = 10, fig.height = 20}
+# Conditional Box Plots
+
+#1. Conditional boxplot of body mass, conditioned on species (column binomial)
+par(mfrow = c(3, 1), mar = c(5,3,3,1))
+boxplot(body_mass~binomial,data = dat_delo, main = "Delomys Body Mass Conditioned on Species", col = "red", xlab = "Species", ylab = "Body Mass")
+
+boxplot(body_mass~sex,data = dat_delo, main = "Delomys Body Mass Conditioned on Sex", col = "pink", xlab = "Sex", ylab = "Body Mass")
+
+boxplot(body_mass~binomial+sex,data = dat_delo, main = "Delomys Body Mass Conditioned on Species & Sex", col = "steelblue", xlab = "Species", ylab = "Body Mass", names = c("Female\n Delomys\n Dorsalis", "Female\n Delomys\n Sublineatus", "Male\n Delomys\n Dorsalis", "Male\n Delomys\n Sublineatus"), las = 2)
+```
+
+# Model Building
+
+```{r fig.width= 8, fig.height = 6}
+#Building models for ANOVA
+fit1 = 
+  lm(
+    formula = body_length ~ body_mass,
+    data = dat_delo)
+coef(fit1)
+
+slope_observed = coef(fit1)
+
+plot(
+  body_length ~ body_mass, data = dat_delo,
+  main = "",
+  xlab = "Body Length",
+  ylab = "Body Mass")
+abline(fit1)
+```
+
+
+```{r}
+fit2  = 
+  lm(
+    formula = body_mass ~ sex,
+    data = dat_delo)
+anova(fit2)
+```
+
+
+```{r}
+fit3 = 
+  lm(
+    formula = body_mass ~ binomial,
+    data = dat_delo)
+anova(fit3)
+
+```
+
+
+```{r}
+fit4 = 
+  lm(
+    formula = body_mass ~ sex + binomial,
+    data = dat_delo)
+anova(fit4)
+```
+
+
+```{r}
+fit5 = 
+  lm(
+    formula = body_mass ~ sex * binomial,
+    data = dat_delo)
+anova(fit5)
+```
+
+```{r fig.width = 10, fig.height = 20}
+#Histograms of model residuals 
+par(mfrow = c(5, 1), mar = c(4,3,3,1))
+hist(residuals(fit1), main = "Histogram of residuals fit 1", xlab = "Residuals (fit 1)", col = "pink")
+hist(residuals(fit2), main = "Histogram of residuals fit 2", xlab = "Residuals (fit 2)", col = "steelblue")
+hist(residuals(fit3), main = "Histogram of residuals fit 3", xlab = "Residuals (fit 3)", col = "red")
+hist(residuals(fit4), main = "Histogram of residuals fit 4", xlab = "Residuals (fit 4)")
+hist(residuals(fit5), main = "Histogram of residuals fit 5", xlab = "Residuals (fit 5)", col = "green")
+```
+
+```{r}
+#Shapiro Test fit 1
+shapiro.test(residuals(fit1))
+```
+
+```{r}
+#Shapiro Test fit 2
+shapiro.test(residuals(fit2))
+```
+
+```{r}
+#Shapiro Test fit 3
+shapiro.test(residuals(fit3))
+```
+
+```{r}
+#Shapiro Test fit 4
+shapiro.test(residuals(fit4))
+```
+
+```{r}
+#Shapiro Test fit 5
+shapiro.test(residuals(fit5))
+```
+
+**Q5: What do you conclude about residual normality based on the numerical and graphical diagnostics?**
+
+Based on the numerical and graphical diagnostics that the residual normality for sex and is not normal. The p-value is well below 0.05 which means the data is not normally distributed. However, based on the numerical and graphical diagnotics on sex and binomial the p-value is over 0.05 which means that the data is normal and normally distributed. 
+
+**Q6: Are violations of the normality assumption equally severe for all the models?**
+No it is not equally severe for the sex:binomial which has a p-value of .950442
+
+# Model Interpretation
+
+```{r}
+knitr::kable(coef(summary()), digits = 2)
+```
+
+**Q7: What is the magnitude of the mass/length relationship?**
+
+
+
+**Q8: What is the expected body length of an animal that weighs 100g?**
+
+
+**Q9: What is the expected body length of an animal that weighs 0g?**
+
+**Q10 (1 pt.): What is the base level for sex?**
+```{r}
+coef(fit2)
+```
+
+
+**Q11 (1 pt.): What is the base level for binomial?**
+```{r}
+coef(fit3)
+```
+
+
+**Q12 (1 pt.): Which sex is heavier? How do you know?**
+
+```{r}
+coef(fit2)
+```
+
+
+**Q13 (1 pt.): Which species is heavier? How do you know?**
+
+```{r}
+fit6 = 
+  lm(
+    formula = body_mass ~ binomial,
+    data = dat_delo)
+
+coef(fit6)
+summary(fit6)
+```
+

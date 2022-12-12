@@ -1,0 +1,47 @@
+---
+title: "In-Class Ginkgo Data Exploration"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+require(here)
+dat_gink <- read.csv(here("data", "ginkgo_data_2022.csv"))
+```
+
+
+**Q1 (1 pt.): How many trees are in the dataset?**
+```{r}
+site_id_columns = unique(dat_gink$site_id, imcomparables = FALSE)
+site_id_columns
+```
+
+
+Q2 (1 pt.): How many trees had seeds?
+
+```{r}
+seeds_present = unique(dat_gink$seeds_present,incomparables = FALSE)
+seeds_present
+```
+
+
+Q3 (1 pt.): Include a conditional boxplot of one of the continuous variables conditioned on the seeds_present column in your report.
+
+
+
+Q4 (1 pt.): Based on your boxplot, do you think there is any difference betwen seed bearing and non seed bearing trees? Note: this is just a preliminary data exploration, you may change your mind based on further analysis!
+
+
+Q5 (1 pt.): Create a scatterplot of max leaf depth (x) and max leaf width (y).
+
+
+Q6 (1 pt.): Qualitatively describe the patterns you see in the scatterplot.
+
+
+Q7 (1 pt.): Explain how our data collection procedure might have violated the fixed x assumption.
+
+
+Q8 (1 pt.): Name 1 or more concepts you’d like me to review or discuss in more detail.

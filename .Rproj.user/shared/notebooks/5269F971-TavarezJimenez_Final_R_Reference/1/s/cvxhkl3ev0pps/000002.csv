@@ -1,0 +1,2 @@
+"0","require(palmerpenguins)"
+"0","plot(body_length ~ body_mass, data = dat_delo, main = ""Delomys Body Mass and Body Length Histogram"", xlab = ""Body Mass"", ylab = ""Body Length"", col = ""black"")"

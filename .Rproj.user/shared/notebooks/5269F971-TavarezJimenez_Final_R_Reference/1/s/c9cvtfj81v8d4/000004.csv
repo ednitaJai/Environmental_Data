@@ -1,0 +1,9 @@
+"0","ginkgo <- read.csv(here(""data"", ""ginkgo_data_2022.csv""))
+"
+"2","Warning in file(file, ""rt"") :"
+"2","
+ "
+"2"," cannot open file '/Users/ednitatavarez/Environmental Data/Environmental_Data/docs/data/ginkgo_data_2022.csv': No such file or directory
+"
+"2","Error in file(file, ""rt"") : cannot open the connection
+"

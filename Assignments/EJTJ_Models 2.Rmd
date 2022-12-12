@@ -1,0 +1,151 @@
+---
+title: "Lecture Assignment: Using Models 2"
+author: "Ednita Tavarez-Jimenez"
+Date: "November 30, 2022"
+output: 
+    html_document:
+    toc: true
+    toc_float: true
+    theme: "journal"
+editor_options: 
+  chunk_output_type: inline
+---
+
+# Walkthrough
+```{r}
+require(palmerpenguins)
+require(here)
+
+t.test(subset(penguins, species == "Gentoo")$flipper_length_mm)
+```
+
+
+```{r}
+## Comparing to zero
+
+t.test(
+  x = subset(penguins, species == "Gentoo")$flipper_length_mm,
+  mu = 218
+)
+```
+
+
+```{r}
+## Gentoo penguin flippers are smaller than 218 mm
+
+t.test(
+  x = subset(penguins, species == "Gentoo")$flipper_length_mm,
+  mu = 218,
+  alternative = "less"
+)
+```
+
+
+```{r}
+#2-sample t-test 
+
+t.test(flipper_length_mm ~ species, data = subset(penguins, species != "Chinstrap"))
+```
+
+```{r}
+# Graphical 
+
+par(mfrow = c(1, 2))
+hist(penguins$body_mass_g, breaks = 80, main = "histogram of body mass", xlab = "body mass (g)")
+plot(density(penguins$body_mass_g, na.rm = TRUE), main = "density plot of body mass")
+```
+
+```{r}
+##Two-way Additive ANOVA
+
+boxplot(body_mass_g ~ species, data = penguins)
+```
+```{r}
+#Fit a 2-way, additive model
+
+fit_additive = lm(body_mass_g ~ sex + species, data = penguins)
+```
+
+
+```{r}
+#Two-Way interactive (factorial) ANOVA
+
+fit_interactive = lm(body_mass_g ~ sex * species, data = penguins)
+```
+
+
+
+## Interpreting Boxplots
+
+
+**Q1: Re-create the conditional boxplot of penguin body mass conditioned on sex and species. Include your boxplot as a figure in your report.**
+
+```{r}
+require(palmerpenguins)
+boxplot(body_mass_g ~ sex*species, main = "Ednita's Conditional plot", xlab = "Sex", ylab = "Body Mass (g)", data = penguins, col = "pink",  names = c("Female \n Adeline", "Male \n Adeline", "Female \n Chinstrap", "Male \n Chinstrap", "Female \n Gentoo", "Male \n Gentoo"), las = 2)
+```
+
+**Q2: Based on the boxplots, do you think male penguins are significantly heavier than female penguins of the same species? Explain your reasoning, and be sure to explain why you think any observed differences are significant or not.**
+
+Based on the boxplot, I don't think that the Male Adeline and the Male Chinstrap were significantly higher than the female of the same species just because of how close they are in difference. I do think that the Male Gentoo are significantly heavier than its female counter. 
+
+**Q3 (2 pts.): Do you think adding sex to a model that already includes species will improve the model fit?**
+
+I do think adding sex to a model that already includes species will improve the model fit. Based on the boxplot, there is not a lot of variance between the species. 
+
+## Model Fit 1
+
+**Q4: Show the R-code you used to build fit_both.**
+
+```{r}
+fit_both <- lm(
+    formula = body_mass_g ~ sex*species,
+    data = penguins)
+```
+
+**Q5: What is the base case for the two-way model that includes sex and species?**
+
+The base case for the two-way model that includes sex and species, I believe are Females of each species and Adelie because they are labeled as the intercept.
+
+```{r}
+summary(fit_both)
+```
+
+
+## Model Coefficients
+
+**Q6: What are the names of the two coefficients (from the first column of the coefficient table) that you need to calculate the average mass of female Chinstrap penguins?**
+
+I would need the intercept and species Chinstrap
+
+```{r}
+summary(fit_both)
+```
+
+
+**Q7: What is the predicted average mass of female Chinstrap penguins in the interactive model?**
+
+The observed average mass of female Chinstrap penguins in the interactive model is 158.3.
+
+```{r}
+
+fit_both <- lm(
+    formula = body_mass_g ~ sex*species,
+    data = penguins)
+
+summary(fit_both)
+```
+**Q8: What is the observed average mass of female Chinstrap penguins, calculated from the penguins data?**
+
+The observed average mass of female Chinstrap penguins is 3527.21.
+```{r}
+dat_both <- subset(penguins, species == "Chinstrap", select = c("body_mass_g","sex"))
+
+fit_both_2 <- lm(
+    formula = body_mass_g ~ sex,
+    data = dat_both)
+
+summary(fit_both_2)
+```
+
+

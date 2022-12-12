@@ -1,0 +1,2 @@
+"0",""
+"0","boxplot(body_mass~sex,data = dat_delo, main = ""Delomys Body Mass Conditioned on Sex"", col = ""pink"", xlab = ""Sex"", ylab = ""Body Mass"")"

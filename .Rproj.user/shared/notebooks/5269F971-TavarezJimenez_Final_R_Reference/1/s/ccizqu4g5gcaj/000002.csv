@@ -1,0 +1,4 @@
+"0","knitr::kable(coef(summary()), digits = 2)"
+"2","Error in is.factor(object) : 
+  argument ""object"" is missing, with no default
+"

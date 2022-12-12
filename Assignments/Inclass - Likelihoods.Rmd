@@ -1,0 +1,96 @@
+---
+title: "In-class Likelihood"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r Likelihood of Two Observations}
+x_observed = c(2, 6)
+print(x_observed)
+
+dpois(x = 2, lambda = 4.5)
+dpois(x = 6, lambda = 4.5)
+
+dpois(x = 2, lambda = 4.5) * dpois(x = 6, lambda = 4.5)
+
+wiwa_counts = c(2, 6)
+dpois(x = wiwa_counts, lambda = 4.5)
+```
+```{r Product of Likelihoods}
+prod(dpois(x = wiwa_counts, lambda = 4.5))
+```
+```{r Sum of Log-Likelihoods}
+sum(log(dpois(x = wiwa_counts, lambda = 4.5)))
+
+```
+
+```{r Likelihood of Many Observations}
+
+dat_bird = read.csv(here::here("data", "bird.sta.csv"))
+dat_habitat = read.csv(here::here("data", "hab.sta.csv"))
+dat_all = merge(dat_bird, dat_habitat)
+
+```
+
+```{r Numerical Data Exploration}
+summary(dat_all$WIWA)
+```
+```{r histogram}
+hist(dat_all$WIWA)
+```
+
+```{r Histogram with breaks}
+hist(dat_all$WIWA, breaks = 7)
+```
+```{r Histogram with custom breaks attempt 2}
+hist(dat_all$WIWA, breaks = 0:7)
+```
+
+```{r likelihood to }
+sum(log(dpois(x = wiwa_counts, lambda = 4)))
+hist()
+```
+```{r}
+hist(dat_all$WIWR, breaks = 0:7-.5)
+
+wiwr_mean = mean(dat_all$WIWR)
+View(wiwr_mean)
+sum(log(dpois(x = dat_all$WIWR, lambda = wiwr_mean)))
+```
+```{r}
+sum(dat_all$WIWR)
+
+sum(log(dbinom(dat_all$WIWR, size = 7, prob = .21)))
+```
+**Q12: 
+-12.01869
+
+**Q13: Q13 (2 pts.): Show the R code you used to make the calculation**
+
+```{r}
+set.seed(1)
+vec_rnorm = rnorm(n = 10, mean = 0, sd = 1)
+sum(log(dnorm(vec_rnorm, 0, 1)))
+
+```
+
+**Q14: 
+
+```{r}
+set.seed(1)
+vec_rnorm = dnorm(n = 10, mean = .13, sd = .78)
+sum(log(dnorm(vec_rnorm, mean = .13, sd = .78)))
+```
+
+```{r}
+require(palmerpenguins)
+flipper_length = na.omit(penguins$flipper_length_mm)
+mean(flipper_length)
+sd(flipper_length)
+
+
+```
+

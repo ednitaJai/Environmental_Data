@@ -1,0 +1,3 @@
+"0","#Histograms of model residuals "
+"0","par(mfrow = c(5, 1), mar = c(4,3,3,1))"
+"0","hist(residuals(fit1), main = ""Histogram of residuals fit 1"", xlab = ""Residuals (fit 1)"", col = ""pink"")"

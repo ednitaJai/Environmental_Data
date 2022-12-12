@@ -1,0 +1,33 @@
+---
+title: "R Markdown Documents - Part 1"
+sub title: "Analysis of Environmental Data"
+author: "Ednita Tavarez-Jimenez"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: journal
+    
+    
+---
+
+```{r setup, include=FALSE}
+
+```
+
+## Introduction
+
+Hello, My name is **Ednita Tavarez-Jimenez**. I am in the *Environmental Science* Masters program thesis track, with a concentration in *fish & wildlife conservation*. I have a 10 year old son, 17 year old Shih-Tzu, two green tree frogs, and a regal jumping spider. I am interested in how disease spread, affects our wildlife, and how introduction of disease affects our wildlife population. For my thesis, I will be learning about wood turtle biology, population viability analysis, 
+
+## Things I would like to learn
+  1. Basic R
+  2. Understanding R
+  3. Hypothesis - Testing
+  4. How to create a Model 
+
+
+## Favorite courses so far 
+  * Infectious Disease Ecology
+  * Ecological Immunity
+  * Analysis of Environmental Data (and Lab!)
+    * Im really enjoying this course and the pace its going 
