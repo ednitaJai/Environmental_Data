@@ -1,0 +1,12 @@
+"0","persp3d(
+  x = sim_output_dispersion$sd,
+  y = sim_output_dispersion$sample_size,
+  z = sim_output_dispersion$power,
+  xlab = ""beta"", ylab = ""sd"", zlab = ""power"",
+  col = 'lightblue',
+  theta = 30, phi = 30, expand = .75,
+  ticktype = 'detailed')
+"
+"2","Error in rgl.surface(x = c(0.01, 0.0884210526315789, 0.166842105263158,  : 
+  'y' length != 'x' rows * 'z' cols
+"

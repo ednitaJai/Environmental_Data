@@ -1,0 +1,10 @@
+"0","AIC("
+"0","  fit2,"
+"0","  fit3,"
+"0","  fit4,"
+"0","  fit5)"
+"2","Warning in AIC.default(fit2, fit3, fit4, fit5) :"
+"2","
+ "
+"2"," models are not all fitted to the same number of observations
+"

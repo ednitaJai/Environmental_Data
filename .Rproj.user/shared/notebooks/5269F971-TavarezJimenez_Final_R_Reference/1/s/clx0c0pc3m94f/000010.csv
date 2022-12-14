@@ -1,0 +1,1 @@
+"0","hist(residuals(fit3), main = ""Histogram of residuals fit 3"", xlab = ""Residuals (fit 3)"", col = ""red"")"

@@ -1,0 +1,2 @@
+"0",""
+"0","boxplot(body_mass~binomial+sex,data = dat_delo, main = ""Delomys Body Mass Conditioned on Species & Sex"", col = ""steelblue"", xlab = ""Species"", ylab = ""Body Mass"", names = c(""Female\n Delomys\n Dorsalis"", ""Female\n Delomys\n Sublineatus"", ""Male\n Delomys\n Dorsalis"", ""Male\n Delomys\n Sublineatus""), las = 2)"

@@ -1,0 +1,7 @@
+"0","#Plotting Matrix"
+"0",""
+"0","image("
+"0","  sim_n_effect_size$power,"
+"0","  xlab = ""Effect size"","
+"0","  ylab = ""Sample Size"","
+"0","  axes = FALSE)"

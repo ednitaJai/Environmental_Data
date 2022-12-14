@@ -444,7 +444,9 @@ shapiro.test(residuals(fit5))</code></pre>
 </div>
 <div id="model-interpretation" class="section level1">
 <h1>Model Interpretation</h1>
-<pre class="r"><code>knitr::kable(coef(summary(fit5)), digits = 2)</code></pre>
+<p><strong>Q7: What is the magnitude of the mass/length relationship?</strong></p>
+<p>The magnitude of the mass/length relationship is that it is increasing by .87.</p>
+<pre class="r"><code>knitr::kable(coef(summary(fit1)), digits = 2)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -458,34 +460,232 @@ shapiro.test(residuals(fit5))</code></pre>
 <tbody>
 <tr class="odd">
 <td align="left">(Intercept)</td>
-<td align="right">45.06</td>
-<td align="right">0.61</td>
-<td align="right">74.44</td>
-<td align="right">0.00</td>
+<td align="right">76.12</td>
+<td align="right">0.92</td>
+<td align="right">83.12</td>
+<td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="left">sexmale</td>
-<td align="right">3.83</td>
-<td align="right">0.90</td>
-<td align="right">4.27</td>
-<td align="right">0.00</td>
-</tr>
-<tr class="odd">
-<td align="left">binomialDelomys sublineatus</td>
-<td align="right">-8.14</td>
-<td align="right">1.13</td>
-<td align="right">-7.22</td>
-<td align="right">0.00</td>
-</tr>
-<tr class="even">
-<td align="left">sexmale:binomialDelomys sublineatus</td>
-<td align="right">-0.10</td>
-<td align="right">1.53</td>
-<td align="right">-0.06</td>
-<td align="right">0.95</td>
+<td align="left">body_mass</td>
+<td align="right">0.88</td>
+<td align="right">0.02</td>
+<td align="right">44.46</td>
+<td align="right">0</td>
 </tr>
 </tbody>
 </table>
+<pre class="r"><code>slope_observed = coef(fit1) [2]
+summary(coef(fit1))</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.8755 19.6878 38.5001 38.5001 57.3124 76.1247</code></pre>
+<p><strong>Q8: What is the expected body length of an animal that weighs 100g?</strong></p>
+<p>The expected body length of an animal that weights 100g is 164.12</p>
+<pre class="r"><code>76.12 + .88*100</code></pre>
+<pre><code>## [1] 164.12</code></pre>
+<p><strong>Q9: What is the expected body length of an animal that weighs 0g?</strong></p>
+<p>The expected body length for an animal that weighs 0g is 76.12.</p>
+<pre class="r"><code>76.12+.88*0</code></pre>
+<pre><code>## [1] 76.12</code></pre>
+<p><strong>Q10: What is the base level for sex?</strong></p>
+<p>The base level for sex are the females.</p>
+<pre class="r"><code>knitr::kable(coef(summary(fit2)), digits = 2)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Estimate</th>
+<th align="right">Std. Error</th>
+<th align="right">t value</th>
+<th align="right">Pr(&gt;|t|)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">42.71</td>
+<td align="right">0.53</td>
+<td align="right">80.76</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">sexmale</td>
+<td align="right">2.78</td>
+<td align="right">0.75</td>
+<td align="right">3.73</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>coef(fit2)</code></pre>
+<pre><code>## (Intercept)     sexmale 
+##   42.711465    2.784133</code></pre>
+<pre class="r"><code>summary(fit2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = body_mass ~ sex, data = dat_delo)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -40.496  -8.711  -0.496   9.504  59.504 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  42.7115     0.5289  80.756  &lt; 2e-16 ***
+## sexmale       2.7841     0.7456   3.734 0.000195 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 14.82 on 1578 degrees of freedom
+##   (5 observations deleted due to missingness)
+## Multiple R-squared:  0.008758,   Adjusted R-squared:  0.00813 
+## F-statistic: 13.94 on 1 and 1578 DF,  p-value: 0.0001951</code></pre>
+<p><strong>Q11: What is the base level for binomial?</strong></p>
+<p>Delomys dorsalis is the base level for binomial</p>
+<pre class="r"><code>knitr::kable(coef(summary(fit3)), digits = 2)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Estimate</th>
+<th align="right">Std. Error</th>
+<th align="right">t value</th>
+<th align="right">Pr(&gt;|t|)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">46.75</td>
+<td align="right">0.45</td>
+<td align="right">103.9</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">binomialDelomys sublineatus</td>
+<td align="right">-7.68</td>
+<td align="right">0.76</td>
+<td align="right">-10.1</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>coef(fit3)</code></pre>
+<pre><code>##                 (Intercept) binomialDelomys sublineatus 
+##                   46.752427                   -7.683058</code></pre>
+<pre class="r"><code>summary(fit3)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = body_mass ~ binomial, data = dat_delo)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -41.752  -9.069  -0.069   9.248  65.931 
+## 
+## Coefficients:
+##                             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                  46.7524     0.4500   103.9   &lt;2e-16 ***
+## binomialDelomys sublineatus  -7.6831     0.7605   -10.1   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 14.44 on 1583 degrees of freedom
+## Multiple R-squared:  0.06058,    Adjusted R-squared:  0.05998 
+## F-statistic: 102.1 on 1 and 1583 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p><strong>Q12: Which sex is heavier? How do you know?</strong></p>
+<p>The Male sex is heavier because they weight 45.4841 where as, the females only weight 42.7</p>
+<pre class="r"><code>female_sex &lt;- 42.7 + 2.7841 * 0 
+male_sex &lt;- 42.7 + 2.7841 * 1</code></pre>
+<p><strong>Q13: Which species is heavier? How do you know?</strong></p>
+<p>Delomys dorsalis is heavier because they weight 46.7 where as, Delomys sublineatus only weights 39.01</p>
+<pre class="r"><code>coef(fit3)</code></pre>
+<pre><code>##                 (Intercept) binomialDelomys sublineatus 
+##                   46.752427                   -7.683058</code></pre>
+<pre class="r"><code>summary(fit3)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = body_mass ~ binomial, data = dat_delo)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -41.752  -9.069  -0.069   9.248  65.931 
+## 
+## Coefficients:
+##                             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                  46.7524     0.4500   103.9   &lt;2e-16 ***
+## binomialDelomys sublineatus  -7.6831     0.7605   -10.1   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 14.44 on 1583 degrees of freedom
+## Multiple R-squared:  0.06058,    Adjusted R-squared:  0.05998 
+## F-statistic: 102.1 on 1 and 1583 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>d_dor &lt;- 46.7 - 7.6831 * 0
+d_sub &lt;- 46.7 - 7.6831 *1</code></pre>
+<div id="anova-tables" class="section level2">
+<h2>Anova Tables</h2>
+<p><strong>Q14: Are sex and species significant predictors for body mass?</strong></p>
+<p>Yes because the p-value is under .05 for both the sex and the species in the additive and factorial ANOVA.</p>
+<pre class="r"><code>anova(fit2)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: body_mass
+##             Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+## sex          1   3062 3061.68  13.943 0.0001951 ***
+## Residuals 1578 346507  219.59                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>anova(fit3)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: body_mass
+##             Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+## binomial     1  21290 21289.7  102.08 &lt; 2.2e-16 ***
+## Residuals 1583 330164   208.6                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>anova(fit4)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: body_mass
+##             Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+## sex          1   3062  3061.7  14.958 0.0001144 ***
+## binomial     1  23727 23727.1 115.923 &lt; 2.2e-16 ***
+## Residuals 1577 322780   204.7                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>anova(fit5)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: body_mass
+##                Df Sum Sq Mean Sq  F value    Pr(&gt;F)    
+## sex             1   3062  3061.7  14.9489  0.000115 ***
+## binomial        1  23727 23727.1 115.8500 &lt; 2.2e-16 ***
+## sex:binomial    1      1     0.8   0.0039  0.950442    
+## Residuals    1576 322779   204.8                       
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p><strong>Q15: Is there a significant interaction?</strong></p>
+<p>There not a significant interaction because the p-value is .95 which is above the .05.</p>
+<p><strong>Q16: Examine the p-values for the main effects (sex and species) in all four of the ANOVA tables. Does the significance level of either main effect change very much among the different models?</strong></p>
+<p>Looking at the p-values for the main effects in all four of the ANOVA rables the significance level does not change very much among the different models.</p>
+<p>##Model Comparison</p>
+<p><strong>Q17: Which two models have the lowest AIC?</strong></p>
+<p>The model with the lowest AIC is fit3.</p>
+<pre class="r"><code>AIC(
+  fit2,
+  fit3,
+  fit4,
+  fit5)</code></pre>
+<pre><code>## Warning in AIC.default(fit2, fit3, fit4, fit5): models are not all fitted to the
+## same number of observations</code></pre>
+<pre><code>##      df      AIC
+## fit2  3 13006.80
+## fit3  3 12966.36
+## fit4  4 12896.73
+## fit5  5 12898.72</code></pre>
+<p><strong>Q18: Which of the two models with lowest AIC scores would you select?</strong></p>
+<p>I would select fit3 and fit4, due to their low numbers there is strong evidence in favor of the model fit. In addition, they are also the two that are more of frugal which is the trade off. However, these two model could also have a chance of fitting poorly.</p>
+</div>
 </div>
 
 

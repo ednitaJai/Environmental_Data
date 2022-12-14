@@ -1,0 +1,207 @@
+---
+title: "The Bootstrap"
+author: "Ednita J Tavarez-Jimenez"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: journal
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Penguin Parametric CI
+
+**Q1: What is the sample size, n?**
+
+The sample size is 123L
+
+```{r}
+require(palmerpenguins)
+Gentoo = subset(penguins, species == "Gentoo")
+
+n = sum(!is.na(Gentoo$bill_length_mm))
+```
+
+**Q2: What is the sample standard deviation?**
+
+The Standard Deviation is .089.
+
+```{r}
+sd((!is.na(Gentoo$bill_length_mm)))
+```
+
+**Q3: What are the critical t-values?**
+
+The critical t-value is 1.979
+```{r}
+alpha = 0.05
+t_crit = abs(qt(alpha / 2, df = n - 1))
+```
+
+**Q4: What is the sample standard error?
+
+The sample standard error is 0.277
+
+```{r}
+sse_gentoo = sd(Gentoo$bill_length_mm, na.rm = TRUE) / sqrt(n)
+```
+
+**Q5: Finally construct the CI**
+
+```{r}
+# The CI is the sample mean +/- the radius:
+mean(Gentoo$bill_length_mm, trim = 0, na.rm = TRUE)
+
+# 4: Calculate the CI radius:
+gentoo_radius = sse_gentoo * t_crit
+
+Gentoo_ci = c(
+  lower = mean(Gentoo$bill_length_mm, na.rm = TRUE) - gentoo_radius,
+  upper = mean(Gentoo$bill_length_mm, na.rm = TRUE) + gentoo_radius)
+
+print(round(Gentoo_ci, 4))
+```
+
+## Penguin Bootstrap
+
+**Q6: What is the CI?
+
+The CI is   2.5%: 46.96585    97.5%: 48.05251 
+
+**Q7: Show the r code you used to call the boot() function.**
+
+```{r}
+m = 10000
+result = numeric(m)
+head(result)
+for(i in 1:m)
+{
+  result[i] = mean(sample(Gentoo$bill_length_mm, m, replace=TRUE, !is.na(Gentoo$bill_length_mm)))
+}
+
+mean(result)
+quantile(result,c(0.025,0.975))
+
+#install.packages("boot")
+require(boot)
+boot_mean = function(x, i)
+{
+  return(mean(x[i], na.rm = TRUE))
+  
+}
+
+myboot_bill =
+  boot(
+    data = Gentoo$bill_length_mm,
+    statistic = boot_mean,
+    R = 10000)
+
+print(myboot_bill)
+```
+
+**Q8: Show the r code you used to calculate the upper and lower 2.5% quantiles.**
+
+```{r}
+str(myboot_bill)
+mean(sample(Gentoo$bill_length_mm, m, replace=TRUE, !is.na(Gentoo$bill_length_mm)))
+myboot_bill$t0
+mean(myboot_bill$t) - myboot_bill$t0
+sd(myboot_bill$t)
+
+quantile(
+  myboot_bill$t,
+  c(0.025, 0.975))
+```
+## Refaction Sampler
+
+**Q9: Show your completed rarefaction_sampler() function.
+
+```{r}
+require(here)
+moths = read.csv(here("data", "moths.csv"))
+head(moths)
+
+moth_dat = moths[,-1]
+head(moth_dat)
+
+rarefaction_sampler = function(input_dat, n_iterations)
+{
+  n = nrow(moth_dat) #number of rows or sample observations
+  m = 100
+  
+  n_input_rows = nrow(input_dat)
+  
+  results_out = matrix(
+    nrow = n_iterations,
+    ncol = n_input_rows)
+  
+  # The outer loop: runs once for each bootstrap iteration.  index variable is i
+  for(i in 1:n_iterations)
+  {
+    # The inner loop: simulates increasing sampling intensity
+    # Sampling intensity ranges from 1 site to the complete count of
+    # sites in the input data (n)
+    # index variable is j
+    for(j in 1:n)
+    {
+      # sample the input data row indices, with replacement
+      rows_j = sample(n, size = j, replace=TRUE)
+      
+      # Creates a new data matrix
+      t1 = input_dat[rows_j, ]
+      
+      # Calculates the column sums
+      t2 = apply(t1, 2, sum)
+      
+      # Counts the number of columns in which any moths were observed
+      results_out[i, j] = sum(t2 > 0)
+    }
+  }
+  return(results_out)
+}
+
+rarefact = rarefaction_sampler(moth_dat, 100)
+head(rarefact)
+
+```
+
+**Q10 (1 pt.): What did you find most difficult about building the function?**
+
+Having to figure out and understand how to get the code to work. I only found one thing wrong with it to make it work. 
+
+**Q11 (4 pts.): Show the code you used to perform the simulations and construct the curve.**
+
+```{r}
+moths = read.csv(here("data", "moths.csv"))
+rarefact = rarefaction_sampler(moths[,-1], 10000)
+
+rare_mean = apply(rarefact, 2, mean)
+rare_quant = apply(rarefact, 2, quantile, probs=c(0.025, 0.975))
+rare = t(rbind(rare_mean, rare_quant))
+
+matplot(
+  rare,
+  type='l',
+  xlab='Number of sampling plots',
+  ylab='Moth Sampling',
+  main="Rarefaction Curve")
+
+legend(
+  'bottomright',
+  legend=c('mean','2.5%','97.5%'),
+  lty=c(1,2,3),col=c(1,2,3), inset=c(.1,.1))
+
+```
+
+**Q13 (2 pts.): About how many sites should you visit if you want to see all of the moth species? Explain your reasoning using your rarefaction curve figure.**
+
+I would visit about 23 sites because thats where the 97.5%, 2.5% and the mean meet where its the highest number of sampling. 
+
+
+There is strong relationship that there is a non negative relationships. 
+the relationship is negative
