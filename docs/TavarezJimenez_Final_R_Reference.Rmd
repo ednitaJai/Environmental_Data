@@ -16,9 +16,6 @@ editor_options:
 
 ## Loading Data and Packages
 
-
-## Next Section...
-
 ```{r}
 require(here)
 library(palmerpenguins)
@@ -27,6 +24,140 @@ here()
 ginkgo <- read.csv(here("data", "ginkgo_data_2022.csv"))
 dat_delo <- read.csv(here("data", "delomys.csv"))
 dat_pen <- penguins
+```
+
+## Data Structure
+
+```{r}
+num_vec  = c(2, 4, 6)
+
+## Create a vector of characters:
+char_vec = c("a", "fantastic", "year")
+
+num_vec
+
+print(char_vec)
+```
+**Length**
+
+```{r}
+length(dat_delo)
+```
+
+**Matrix**
+
+```{r}
+dim(dat_delo)
+dat_char <- matrix(nrow = length(num_vec), ncol = length(char_vec))
+
+#data frame for dat_delo
+dat_char = data.frame(char_vec, num_vec)
+```
+
+## Subsetting
+
+```{r}
+ginkgo$seeds_present
+
+ginkgo[1]
+ginkgo [2,3]
+ginkgo[,3]
+Adelie <- subset(penguins, species =="Adelie")
+```
+
+## Numerical Data Exploration
+
+```{r}
+summary(Adelie)
+mean_ad <- mean(Adelie$bill_length_mm, trim = 0, na.rm = TRUE)
+sd((!is.na(Adelie$bill_length_mm)))
+```
+
+## Graphical Data Exploration 
+
+```{r}
+plot(max_depth ~ max_width, data = ginkgo,
+     col = "steelblue",
+     pch = 11,
+     cex = .5,
+     main = "Ednita's plot of Ginkgo Max Width and Max Depth",
+     xlab = "Max Leaf Depth",
+     ylab = "Max Leaf Length", 
+     xlim = c(20,120),
+     ylim = c(20,150))
+     
+```
+```{r}
+hist(dat_pen$flipper_length_mm, 
+     col = "pink", 
+     main = "Penguin Flipper Length (mm)",
+     xlab = "Flipper Length (mm)", 
+     xlim = c(160,250),
+     ylim = c(0, 60), 
+     breaks = 20)
+```
+```{r}
+boxplot(ginkgo$petiole_length, 
+        col = "red",
+        main = "Ginkgo Pertiole Length",
+        ylab = "Petiole Length")
+```
+```{r}
+boxplot(
+  max_width ~ seeds_present,
+  data = ginkgo,
+  col = "Pink",
+  las = 2,
+  xlab = "Seeds Present",
+  ylab = "Max Width",
+  main = "Max Width Conditioned on Seeds Present")
+```
+```{r}
+par(mfrow = c(2,2))
+
+hist(dat_delo$body_mass,
+     col = "steelblue",
+     main = "Delomys Body Mass", 
+     xlab = "Delomys Body Mass")
+hist(dat_pen$bill_length_mm, 
+     col = "pink",
+     main = "Penguin's Bill Depth (mm)",
+     xlab = "Penguin's Bill Length (mm)")
+hist(Adelie$bill_depth_mm,
+     col = "Red",
+     main = "Adelie Bill Depth (mm)",
+     xlab = "Bill Depth (mm)")
+hist(dat_delo$body_length, 
+     col = "black", 
+     main = "Delomys Body Length", 
+     xlab = "Body Length")
+```
+
+## Distribution Functions
+
+```{r}
+dnorm(x = 4, mean = 0, sd = 1)
+```
+
+```{r}
+pnorm(q = 4, mean = 0 , sd = 1)
+```
+
+```{r}
+qnorm(.75, mean = 0 , sd = 1)
+```
+
+```{r}
+dbinom(10, size = 11, prob = .5)
+
+```
+
+```{r}
+pbinom(50, size = 51, prob = .75)
+```
+
+```{r}
+qbinom(.111, size = 11, prob = .5)
 ```
 
 # Part 2: Data Analysis
@@ -177,7 +308,7 @@ shapiro.test(residuals(fit5))
 
 **Q5: What do you conclude about residual normality based on the numerical and graphical diagnostics?**
 
-Based on the numerical and graphical diagnostics that the residual normality for sex and is not normal. The p-value is well below 0.05 which means the data is not normally distributed. However, based on the numerical and graphical diagnotics on sex and binomial the p-value is over 0.05 which means that the data is normal and normally distributed. 
+Based on the numerical and graphical diagnostics that the residual normality for sex and is not normal. The p-value is well below 0.05 which means the data is not normally distributed. However, based on the numerical and graphical diagnostics on sex and binomial the p-value is over 0.05 which means that the data is normal and normally distributed. 
 
 **Q6: Are violations of the normality assumption equally severe for all the models?**
 No it is not equally severe for the sex:binomial which has a p-value of .950442
@@ -201,8 +332,6 @@ The expected body length of an animal that weights 100g is 164.12
 76.12 + .88*100
 ```
 
-
-
 **Q9: What is the expected body length of an animal that weighs 0g?**
 
 The expected body length for an animal that weighs 0g is 76.12.
@@ -224,7 +353,7 @@ summary(fit2)
 
 **Q11: What is the base level for binomial?**
 
-Delomys dorsalis is the base level for binomial
+Delomys dorsalis is the base level for binomial.
 ```{r}
 knitr::kable(coef(summary(fit3)), digits = 2)
 coef(fit3)
@@ -235,7 +364,7 @@ summary(fit3)
 
 **Q12: Which sex is heavier? How do you know?**
 
-The Male sex is heavier because they weight 45.4841 where as, the females only weight 42.7
+The Male sex is heavier because they weight 45.4841 where as, the females only weight 42.7.
 ```{r}
 
 female_sex <- 42.7 + 2.7841 * 0 
@@ -246,7 +375,7 @@ male_sex <- 42.7 + 2.7841 * 1
 
 **Q13: Which species is heavier? How do you know?**
 
-Delomys dorsalis is heavier because they weight 46.7 where as, Delomys sublineatus only weights 39.01
+Delomys dorsalis is heavier because they weight 46.7 where as, Delomys sublineatus only weights 39.01.
 
 ```{r}
 coef(fit3)
@@ -288,7 +417,7 @@ There not a significant interaction because the p-value is .95 which is above th
 
 **Q16: Examine the p-values for the main effects (sex and species) in all four of the ANOVA tables. Does the significance level of either main effect change very much among the different models?**
 
-Looking at the p-values for the main effects in all four of the ANOVA rables the significance level does not change very much among the different models. 
+Looking at the p-values for the main effects in all four of the ANOVA tables the significance level does not change very much among the different models. 
 
 ##Model Comparison
 

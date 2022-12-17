@@ -1,0 +1,11 @@
+"0",""
+"0","points("
+"0","  x = newdata_sample_size$sample_size,"
+"0","  y = predict(fit_lowess_50, newdata = newdata_sample_size),"
+"0","  type = ""l"", add = TRUE,"
+"0","  ylab = ""Statistical Power"", xlab = ""Sample Size"", lty = ""solid"")"
+"2","Warning in plot.xy(xy.coords(x, y), type = type, ...) :"
+"2","
+ "
+"2"," ""add"" is not a graphical parameter
+"

@@ -1,0 +1,222 @@
+---
+title: "Lab 04: Uncertainty & Error"
+author: "Ednita Tavarez-Jimenez"
+Date: "September 28, 2022"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: journal
+---
+## Normal Vectors
+
+Q1: Create four vectors of normally-distributed random numbers, norm_17, norm_30, norm_300, and norm_3000.
+
+You should tell R that you want your random deviates have a mean of 10.4 and a standard deviation of 2.4.
+
+norm_17 should have 17 elements, norm_30 should have 30 elements, norm_300 should have 300 elements, and norm_3000 should have 3000 elements.
+
+(1 pt.) Show the code you used to create your vectors.
+
+
+
+```{r Normal Vectors}
+#norm_17
+
+set.seed(39)
+norm_17 <- rnorm(17, mean = 10.4, sd = 2.4)
+
+#norm_30
+
+set.seed(39)
+norm_30 <- rnorm(30, mean = 10.4, sd = 2.4)
+
+#norm_300
+
+set.seed(35)
+norm_300 <- rnorm(300, mean = 10.4, sd = 2.4)
+
+#norm_3000
+
+set.seed(39)
+norm_3000 <- rnorm(3000, mean = 10.4, sd = 2.4)
+
+
+```
+
+## Normal Vectors: Histograms
+
+Q4: Qualitatively describe the differences among the histograms.
+
+The graph with ND 17 is symmetrical and only goes up to 13 on the x-axis and 4 on the y-axis. ND 30 is slightly symmetrical and only goes to 14 on the x-axis and 8 on the y-axis. ND 300 looks pretty random, it is not skewed in any way or symmetrical. Lasty,ND 3000 seem to have a normal distribution and goes up to 20 on the x-axis and 500 on the y-axis. 
+
+Q5: Explain why the shapes of the histograms are different.
+
+The shapes are so different because they are each generating a set value of random numbers and they each only generate a certain amount.
+```{r}
+#png(file = "ND Random Numbers)", width = 1000, height = 1000)
+par(mfrow = c(2, 2))
+hist(norm_17, main = "ND 17 random numbers", xlab = "Norm 17")
+hist(norm_30, main = "ND 30 random numbers", xlab = "Norm 30")
+hist(norm_300, main = "ND 300 random numbers", xlab = "Norm 300")
+hist(norm_3000, main = "ND 3000 random numbers", xlab = "Norm 3000")
+#dev.off()
+```
+
+## Standard Normal
+
+Q6: What are the parameters and their values for the standard Normal distribution?
+
+the parameters for the standard Normal distribution are
+mean 0 and sd = 1
+
+Q7: Normal Density Function 
+
+
+Include the R code you used to create your figure. Your answer should include code that builds the figure as well as saves it to a file. 
+
+```{r}
+# Generate a vector of x-values
+#pdf(file = "Standard Normal Graph.pdf", width = 7, height = 7)
+x = seq(4, 18, length.out = 1000)
+y = dnorm(x, mean = 10.4, sd = 2.4)
+plot(x, y, main = "Standard Normal Mean = 10.4 & SD = 2.4", type = "l", xlim = c(4, 18))
+abline(h = 0)
+
+#dev.off()
+```
+
+## Random Data
+
+*Q9: Show the R code you used to create one of the random datasets in your figure.
+
+```{r}
+#norm_11
+
+set.seed(5)
+rnorm_1 <- rnorm(15, mean = 4.2, sd = 2.2)
+
+#norm_111
+
+set.seed(10)
+rnorm_11 <- rnorm(11, mean = 4.2, sd = 2.2)
+
+#norm_1111
+
+set.seed(100)
+rnorm_111 <- rnorm(111, mean = 4.2, sd = 2.2)
+
+#norm_11111
+
+set.seed(1000)
+rnorm_1111 <- rnorm(1111, mean = 4.2, sd = 2.2)
+
+
+#plot
+par(mfrow = c(2, 2))
+barplot(rnorm_1, main = "RNorm 11 Random Numbers", xlab = "rnorm 11", col = "pink")
+hist(rnorm_11, main = "RNorm 111 Random Numbers", xlab = "rnorm 111", col = "steelblue")
+boxplot(rnorm_111, main = "RNorm 1111 Random Numbers", xlab = "rnorm 1111", col = "red")
+plot(rnorm_1111, main = "RNorm 111111 Random Numbers", xlab = "rnorm 11111", col = "chartreuse4")
+```
+*Q10: 
+
+```{r}
+pdf(file = "Random Data Graphs Q9 - Q10", width = 7, height = 7)
+par(mfrow = c(2, 2))
+barplot(rnorm_1, main = "RNorm 11 Random Numbers", xlab = "rnorm 11", col = "pink")
+hist(rnorm_11, main = "RNorm 111 Random Numbers", xlab = "rnorm 111", col = "steelblue")
+boxplot(rnorm_111, main = "RNorm 1111 Random Numbers", xlab = "rnorm 1111", col = "red")
+plot(rnorm_1111, main = "RNorm 111111 Random Numbers", xlab = "rnorm 11111", col = "chartreuse4")
+dev.off()
+```
+## Random Data Model Fit
+
+Choose one of the datasets you created for the previous question.
+Adapting the code in the lab walkthrough, visually fit a linear deterministic function through the data.
+Make sure you save your parameters to variables so you can use them in the next question.
+Create a plot of your simulated data and your fitted linear model.
+
+Q11 Random Data Model Fit (Q 13-14)
+(3 pts.) Show the R code you used to create one of the random datasets in your figure.
+
+```{r}
+n_pts = 1000
+x_min = 0
+x_max = 1200
+
+# X values are uniformly distributed
+x_random = runif(n = n_pts, min = x_min, max = x_max)
+
+# Y values are normally-distributed.
+# I used the default parameters for mean and sd.
+y_random = rnorm(n = n_pts)
+
+dat_random = data.frame(x = x_random, y = y_random)
+
+plot(y ~ x, data = dat_random, pch = 8)
+
+line_point_slope = function(x, x1, y1, slope)
+{
+  get_y_intercept = 
+    function(x1, y1, slope) 
+      return(-(x1 * slope) + y1)
+  
+  linear = 
+    function(x, yint, slope) 
+      return(yint + x * slope)
+  
+  return(linear(x, get_y_intercept(x1, y1, slope), slope))
+}
+guess_x <- 600
+guess_y <- 0
+guess_slope <- 0
+plot(y ~ x, data = dat_random, pch = 8)
+curve(line_point_slope(x, guess_x, guess_y, guess_slope), add = T, col = "red")
+```
+Q12: 
+Upload an image file of your figure. It may be in png (raster graphics), svg (vector graphics), or pdf (vector graphics) format.
+Check out the corresponding functions png(), pdf(), and svg() for info.
+
+```{r}
+pdf(file = "Curve Plot", width = 7, height = 7)
+guess_x <- 600
+guess_y <- 0
+guess_slope <- 0
+plot(y ~ x, data = dat_random, pch = 8)
+curve(line_point_slope(x, guess_x, guess_y, guess_slope), add = T, col = "red")
+
+dev.off()
+```
+## Random Data Model Residuals
+
+Use the dataset you chose for the previous question.
+Adapting the code in the lab walkthrough, create a column of predicted y-values.
+Adapting the code in the lab walkthrough, create a column of residuals.
+
+*Q13: Random Data Model Residuals*
+
+Paste the R code you used to create create the columns of predicted values and residuals.
+
+```{r}
+line_point_slope(dat_random$x, guess_x, guess_y, guess_slope)
+dat_random$y_predicted = line_point_slope(dat_random$x, guess_x, guess_y, guess_slope)
+dat_random$resids = (dat_random$y - dat_random$y_predicted)
+head(dat_random)
+```
+
+**Q14: Random Data Model Residuals**
+
+In your report, include the two following figures
+A histogram of the model’s residuals.
+A scatterplot of your model’s predicted values (on the x-axis) and residuals (on the y-axis).
+Make sure your figure has appropriate title, legend, and other annotation as needed.
+
+```{r}
+dat_predict <- dat_random$y_predicted
+dat_resids <- dat_random$resids
+group <- as.factor(ifelse(dat_random < 0.5, "dat_predict", "dat_resids"))
+hist(dat_resids, main = "Histogram of Resids", xlab = "Resids", col = "pink")
+plot(x = dat_predict, y = dat_resids, pch = as.numeric(group), main = " Y Predicted & Resids", xlab = "Y Predict", ylab = "Resids", col = factor(group))
+```
+
